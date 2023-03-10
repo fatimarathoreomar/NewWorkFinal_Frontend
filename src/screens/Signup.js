@@ -119,7 +119,7 @@ const Signup = () => {
                    }
                    else{
                        alert('Signup Sucessful,Now login ');
-                       AsyncStorage.setItem('signupdata', JSON.stringify(data))
+                       AsyncStorage.setItem('Profiledata', JSON.stringify(data))
                         if(fdata.type==1){
                            // navigation.navigate("FreelancerProfile",{data});}
                            console.log(data);

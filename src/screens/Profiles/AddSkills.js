@@ -58,8 +58,8 @@ const AddSkills = () => {
     const NextButtonHandler =() =>{
         console.log("Inside next")
         const skills=selectedSkills;
-       
-   AsyncStorage.getItem('user')
+      //user
+   AsyncStorage.getItem('Profiledata')
   .then((value) => {
     const data = JSON.parse(value);
     const _id=data.freelancer.user_id;
@@ -83,7 +83,7 @@ const AddSkills = () => {
                 else if (data.message=='freelancer skills updated'){
                     //dispatchEvent(setUser(fdata));
                     alert('Sucessful');
-                    storeData('AddSkillsData',JSON.stringify(data));
+                    storeData('Profiledata',JSON.stringify(data));
                    navigation.navigate("HourlyRateandBio",{data});
                    }
                 }

@@ -10,7 +10,7 @@ import SkillList from '../../components/SkillList';
 import { Foundation } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import StarIcon from 'react-native-vector-icons/Ionicons';
-import BottomNavBar from '../../components/BottomNavBar';
+import BottomNavBarF from '../../components/BottomNavBarF';
 import { useRoute } from '@react-navigation/native';
 import {profilepic} from '../../assets/images/working.jpeg'
 //import AsyncStorage from 'react-native';
@@ -37,19 +37,17 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { getData, storeData } from '../../components/Atoms/MyLocalStore';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MyJobs from '../RecruiterNavScreens/MyJobs';
 const FreelancerProfile = () => {
   const route = useRoute();
-  //const { path } = route.params;
-  //console.log(path);
+  // const { path } = route.params;
+  // console.log(path);
   //const [userdata, setUserdata] = React.useState(null),
   const navigation = useNavigation();
   const [errormsg, setErrormsg] = useState(null);
-  //console.log(data);
-  // const [userdata, setUserdata] = React.useState(null);
-  // const [freelancerdata,setfreelancerdata]=React.useState(null);
   const [skill,setskill]=useState("");
   const [skills,setskills]=useState([]);
-  const [hourlyRate,sethourlyrate]=useState("");
+  const [hourlyRate,sethourlyrate]=useState(0);
   const [bio,setbio]=useState("");
   const [rating,setrating]=useState(0);
   const [first_name,setfname]=useState("");
@@ -58,6 +56,8 @@ const FreelancerProfile = () => {
   const [email,setemail]=useState("");
   const [name,setname]=useState("");
   const [iseditingOn,setediting]=useState(false);
+  const [_id,setid]=useState("");
+  const [user_id,setuserid]=useState("");
   
   
   const updateLocalvalues= () =>{
@@ -65,16 +65,20 @@ const FreelancerProfile = () => {
         const data=JSON.parse(value);
         //console.log(data);
         const n=data.user.first_name+" "+data.user.last_name;
+        sethourlyrate(data.freelancer.hourlyRate);
         setname(n);
         setfname(data.user.first_name);
         setlname(data.user.last_name);
         setskills(data.freelancer.skills);
-        sethourlyrate(data.freelancer.hourlyRate);
+        
         setbio(data.freelancer.bio);
         setrating(data.freelancer.rating);
         setusername(data.user.username);
         setemail(data.user.email);
+        setid(data.freelancer._id)
+        setuserid(data.freelancer.user_id);
         console.log("hourly rate is");
+        console.log(data.freelancer.hourlyRate)
         console.log(hourlyRate);
         
     }) 
@@ -92,7 +96,7 @@ const FreelancerProfile = () => {
      const loaddata = async () => {
       console.log("loading data");
       
-      AsyncStorage.getItem('updatedfreelancer').then((value) => {
+      AsyncStorage.getItem('Profiledata').then((value) => {
         const data = JSON.parse(value);
         const user_id = data.freelancer.user_id;
         console.log('async user data', data);
@@ -113,7 +117,9 @@ const FreelancerProfile = () => {
               navigation.navigate("Login");
             } else if (data.message == "Got Profile data") {
               //console.log("got profile data from backend !!")
-              storeData('Profiledata', JSON.stringify(data));
+              //storeData('Profiledata', JSON.stringify(data));
+              AsyncStorage.setItem('Profiledata', JSON.stringify(data))
+              console.log("Inside load data this is Profile data")
               console.log(data);
               updateLocalvalues();
             }
@@ -147,20 +153,18 @@ const FreelancerProfile = () => {
  
   const SaveChanges= () =>{
     console.log('inhere');
-    console.log(bio);
-    console.log(skills);
-    console.log(hourlyRate);
-    console.log(first_name);
-    console.log(last_name);
+
+    console.log(name);
+  
    
-    const fdata= {_id,user_id,bio,skills,hourlyRate};
+    const fdata= {_id,user_id,bio,skills,hourlyRate,name};
     if (hourlyRate<5 && hourlyRate>200){
       setErrormsg( "Hourly rate not possible!needs to be between 5 to 200 ");
     }
     else if(bio==""){
       setErrormsg( "Plesae fill your Bio to attract recruiters ");
     }
-    else if(first_name=="" || last_name==""){
+    else if(name==""){
       setErrormsg( "name cannot be empty");
     }
     else{
@@ -174,14 +178,15 @@ const FreelancerProfile = () => {
 
             }).then(res => res.json()).then(
              async Sentbackdata => {
-                 console.log(data2);
+                 console.log(Sentbackdata);
                   if ( Sentbackdata.error) {
                       setErrormsg( Sentbackdata.error);
                   }
                   else if ( Sentbackdata.message=="freelancer updated"){
                      console.log("got profile data from backend !!")
-                     setUserdata(Sentbackdata.freelancer);
-                     setfreelancerdata(Sentbackdata.freelancer);
+                     //storeData('Profiledata', JSON.stringify(Sentbackdata));
+                     AsyncStorage.setItem('Profiledata', JSON.stringify(Sentbackdata))
+                     
                  }
               })
              .catch(err =>{
@@ -231,8 +236,8 @@ const FreelancerProfile = () => {
     
     <View style={styles.header}>
      <TextInput style={styles.name}
-     value={name}
-      onChangeText={(text) => setfname(text.trim())}
+      value={name}
+      onChangeText={(text) => setname(text)}
       /> 
       </View>
       
@@ -242,18 +247,20 @@ const FreelancerProfile = () => {
       
        <View style={styles.header}>
         <FontAwesome name="user" color="#6F6F6F" size={20} />
-          <TextInput style={styles.email} 
-          onChangeText={(text) => setusername(text.trim())} 
-          value={username}>
-          </TextInput>
+          <Text style={styles.email} >
+          
+          {username}
+          </Text>
       </View> 
        
        {/* Hourly rate */}
       <View style={styles.header}>
       <FontAwesome5 name="money-bill-wave"color="#6F6F6F" size={20} />
       <TextInput style={styles.email}
-       onChangeText={(text) => sethourlyrate(text.trim())}
-       value={hourlyRate}/> 
+       onChangeText={(text) => sethourlyrate(text)}
+       keyboardType="numeric"
+       value={hourlyRate.toString()}/> 
+   
        <Text style={styles.email}>$/hr</Text>
        </View> 
 
@@ -261,10 +268,10 @@ const FreelancerProfile = () => {
      {/* email */}
       <View style={styles.header}>
         <Icon name="email" color="#6F6F6F" size={20} />
-        <TextInput style={styles.email} 
-           onChangeText={(text) => setemail(text.trim())} 
-           value={email}
-          />
+        <Text style={styles.email} >
+           
+           {email}
+          </Text>
       </View> 
      
      {/*  rating */}
@@ -288,7 +295,7 @@ const FreelancerProfile = () => {
       
        <TextInput 
             style={styles.textInput}
-            onChangeText={(text) => setbio(text.trim())}
+            onChangeText={(text) => setbio(text)}
             returnKeyType="next"
             
             value={bio}
@@ -317,7 +324,7 @@ const FreelancerProfile = () => {
        <TextInput 
             style={styles.textInputskills}
             value={skill}
-            onChangeText={(text) => setskill(text.trim())}
+            onChangeText={(text) => setskill(text)}
             returnKeyType="next"
             onPressIn={() => setErrormsg(null)}
             //variant = "outline"
@@ -351,7 +358,7 @@ const FreelancerProfile = () => {
    
     
     </ScrollView>
-    <BottomNavBar navigation={navigation} page={"FeelancerProfile"} ></BottomNavBar>
+    <BottomNavBarF navigation={navigation}  ></BottomNavBarF>
      {/* <Foundation name="refresh" size={30} color="white" style={styles.refresh}
                 onPress={() => loaddata()}
             />  */}

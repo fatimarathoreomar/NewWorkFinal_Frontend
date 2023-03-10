@@ -36,6 +36,9 @@ const RecruiterProfile = () => {
     const [email,setemail]=useState("");
     const [iseditingOn,setediting]=useState(false);
     const[name,setname]=useState("");
+    const [_id,setid]=useState("");
+  const [user_id,setuserid]=useState("");
+  
 
    const updateLocalvalues= () =>{
     AsyncStorage.getItem('Profiledata').then((value) => {
@@ -48,15 +51,52 @@ const RecruiterProfile = () => {
        setusername(data.user.username);
        setbio(data.recruiter.bio);
        setemail(data.user.email);
+       setuserid(data.recruiter.user_id);
+       setid(data.recruiter._id);
        setcompany(data.recruiter.company);
         
     }) 
        
    }
+
+
+   const loaddata= () =>{
+    AsyncStorage.getItem('Profiledata').then((value) => {
+         const data = JSON.parse(value);
+        const _id = data.recruiter._id;
+        const user_id=data.recruiter.user_id;
+        const fdata= {_id,user_id};
+fetch('http://192.168.1.98:3000/GetrecruiterProfileData',{
+             method : 'POST',
+            headers : {
+                'Content-Type':'application/json',
+                //'Authorization': 'Bearer ' + JSON.parse(data).token
+            },
+            body: JSON.stringify(fdata)
+
+        }).then(res => res.json()).then(
+         async Sentbackdata => {
+            
+              if ( Sentbackdata.error) {
+                  setErrormsg( Sentbackdata.error);
+              }
+              else if ( Sentbackdata.message=="Sending Profile data"){
+                 console.log("got profile data from backend !!")
+                 AsyncStorage.setItem('Profiledata', JSON.stringify(Sentbackdata))
+                 updateLocalvalues();
+             }
+          })
+         .catch(err =>{
+             alert(err)
+         })
+       })
+
+}
+
    useEffect(() => {
     const GetProfileData= () =>{
-        AsyncStorage.getItem('logindata').then((value) => {
-            const data = JSON.parse(value);
+        AsyncStorage.getItem('Profiledata').then((value) => {
+             const data = JSON.parse(value);
             const _id = data.recruiter._id;
             const user_id=data.recruiter.user_id;
             const fdata= {_id,user_id};
@@ -83,27 +123,19 @@ const RecruiterProfile = () => {
              .catch(err =>{
                  alert(err)
              })
-            })
+           })
 
     }; GetProfileData();
 }, []);
     
     
-    const EditProfile= () =>{
-        setediting(true);
-        
-      }
+    
 
       const SaveChanges= () =>{
         console.log('inhere');
         console.log(bio);
-        console.log(first_name);
-        console.log(last_name);
-        var fname = name.split(' ').slice(0, -1).join(' ');
-        var lname = name.split(' ').slice(-1).join(' ');
-    
-       setfname(fname);
-       setlname(lname);
+       
+     
         //const fdata= {_id,bio,company};
         if (company.length<4){
           setErrormsg( "add the full company name");
@@ -111,20 +143,22 @@ const RecruiterProfile = () => {
         else if(bio==""){
           setErrormsg( "Plesae fill your Bio ");
         }
-        else if(username=="" || email=="" || lname==""){
+        else if(username=="" || email=="" || name==""){
             setErrormsg( "Plesae fill all fields ");
         }
         else{
-            AsyncStorage.getItem('logindata').then((value) => {
-                const data = JSON.parse(value);
-                const _id = data.recruiter._id;
+            //logindata  AsyncStorage.setItem('Profiledata', JSON.stringify(data))
+           // AsyncStorage.getItem('Profiledata').then((value) => {
+               // const data = JSON.parse(value);
+               setbio(bio.trim());
+               setcompany(company.trim());
+               setname(name.trim());
                 //const user_id=data.recruiter.user_id;
-                const fdata= {_id,bio,company,username,email,first_name,last_name};
+                const fdata= {_id,user_id,bio,company,name};
         fetch('http://192.168.1.98:3000/recruiterupdate',{
                      method : 'POST',
                     headers : {
                         'Content-Type':'application/json',
-                        //'Authorization': 'Bearer ' + JSON.parse(data).token
                     },
                     body: JSON.stringify(fdata)
     
@@ -136,14 +170,14 @@ const RecruiterProfile = () => {
                       }
                       else if ( Sentbackdata.message=="recruiter updated"){
                          console.log("got profile data from backend !!")
-                         setrecruiterdata(Sentbackdata.recruiter);
-                         setUserdata(Sentbackdata.user);
+                         AsyncStorage.setItem('Profiledata', JSON.stringify(Sentbackdata))
+                         
                      }
                   })
                  .catch(err =>{
                      alert(err)
                  })
-                })
+               // })
         }
     
       }  
@@ -158,15 +192,15 @@ const RecruiterProfile = () => {
       <View style={styles.header3}>
       <TouchableOpacity
              style={styles.Buttonupimg}
-             onPress={EditProfile}>
-            <Text style={styles.ButtonText}>Edit Profile</Text>
+             onPress={() => loaddata()}>
+            <Text style={styles.ButtonText}>Refresh</Text>
       </TouchableOpacity>
 
       
     <TouchableOpacity
              style={styles.Buttonsave}
              onPress={SaveChanges}>
-            <Text style={styles.ButtonText}>Save Changes</Text>
+            <Text style={styles.ButtonText}>Save </Text>
     </TouchableOpacity>
     </View>
     {
@@ -179,7 +213,7 @@ const RecruiterProfile = () => {
       <View style={styles.header}>
      <TextInput style={styles.name}
       value={name}
-      onChangeText={(text) => setname(text.trim())}
+      onChangeText={(text) => setname(text)}
       /> 
       </View> 
       
@@ -187,18 +221,16 @@ const RecruiterProfile = () => {
        <View style={styles.header}>
         <FontAwesome name="user" color="#6F6F6F" size={20} />
 
-          <TextInput style={styles.email} 
-          onChangeText={(text) => setusername(text.trim())} 
-          value={username}/>
+          <Text style={styles.email} >
+         {username}</Text>
       
       </View>
 
       <View style={styles.header}>
          <Icon name="email" color="#6F6F6F" size={20} /> 
-        <TextInput style={styles.email} 
-         value={email}
-         onChangeText={(text) => setemail(text.trim().toLowerCase())} 
-         />
+        <Text style={styles.email} >
+         {email}
+        </Text>
        
       </View>
 
@@ -206,7 +238,7 @@ const RecruiterProfile = () => {
       <MaterialIcons name="work"  color="#6F6F6F" size={20} /> 
         <TextInput style={styles.email}
         value= {company}
-        onChangeText={(text) => setcompany(text.trim())} />
+        onChangeText={(text) => setcompany(text)} />
         
       
       </View>
@@ -225,7 +257,7 @@ const RecruiterProfile = () => {
             multiline={true}
             numberOfLines={8}
             value={bio}
-            onChangeText={(text) => setbio(text.trim())} 
+            onChangeText={(text) => setbio(text)} 
             
         />
            
@@ -233,7 +265,8 @@ const RecruiterProfile = () => {
     </View>
     </View>
     <View style={styles.bnavbar}>
-    <BottomNavBar/>
+    <BottomNavBar 
+     navigation={navigation} />
     </View>
     </KeyboardAwareScrollView>
           )

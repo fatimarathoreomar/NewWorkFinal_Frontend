@@ -12,17 +12,19 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Modal,
+  DrawerLayoutAndroid,
+  Dimensions,
   Pressable,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-//const navigation = useNavigation();
-const BottomNavBar = ({navigation}) => (
-
+const BottomNavBarF = () => (
  <View style={styles.container}>  
     <View style={styles.navigationContainer}>
           <View style={styles.NavBar}>
           <Pressable
-         onPress={() => navigation.navigate('RecruiterProfile')}
+          onPress={() => navigation.navigate('FreelancerProfile')}
           android_ripple={{borderless:true, radius:50}}>
          <MaterialCommunityIcons 
            name="face-man-profile"
@@ -30,29 +32,25 @@ const BottomNavBar = ({navigation}) => (
            style={styles.Icon}
            //height={iconHeight}
            //width={iconWidth}
-          
            color="#ffffff"
          />
-          
           </Pressable>
 
           <Pressable 
-          onPress={() => navigation.navigate('MyProjects')}
+          onPress={() => navigation.navigate('My_Projects')}
           android_ripple={{borderless:true, radius:50}}>
          <MaterialIcons 
            name="work"
            style={styles.Icon}
            size={35}
-          
-           //height={iconHeight}ofile
+           //height={iconHeight}
            //width={iconWidth}
            color="#ffffff"
          />
-          
           </Pressable>
 
           <Pressable 
-           onPress={()=> navigation.navigate("MyJobs")}
+          onPress={() => navigation.navigate('My_jobs')}
           android_ripple={{borderless:true, radius:50}}>
          <FontAwesome
          
@@ -63,16 +61,14 @@ const BottomNavBar = ({navigation}) => (
            //width={iconWidth}
            color="#ffffff"
          />
-         
           </Pressable>
 
           <Pressable 
-          onPress={() => navigation.navigate('MyPayments')}
+          onPress={() => navigation.navigate('My_Payments')}
           android_ripple={{borderless:true, radius:50}}>
           <MaterialCommunityIcons 
           name="account-cash"
            size={35}
-           
            style={styles.Icon}
            //height={iconHeight}
            //width={iconWidth}
@@ -85,7 +81,7 @@ const BottomNavBar = ({navigation}) => (
 
     </View>
     </View> 
-);
+    );
 
 
     const styles = StyleSheet.create({
@@ -143,5 +139,5 @@ const BottomNavBar = ({navigation}) => (
     })   
 
 
-export default BottomNavBar;    
+export default BottomNavBarF;    
     

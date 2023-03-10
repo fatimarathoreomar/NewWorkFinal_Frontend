@@ -37,7 +37,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     const NextButtonHandler =() =>{
       
        
-   AsyncStorage.getItem('signupdata')
+   AsyncStorage.getItem('Profiledata')
   .then((value) => {
     const data = JSON.parse(value);
     const _id=data.recruiter._id;
@@ -61,7 +61,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
                 else if (data.message=="recruiter updated"){
                     //dispatchEvent(setUser(fdata));
                     //alert('Sucessful');
-                    storeData('updatedrecruiter',JSON.stringify(data));
+                    storeData('Profiledata',JSON.stringify(data));
                     alert("Your profile is ready!Login Now")
                    navigation.navigate("Login",{data});
                    }

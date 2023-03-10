@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import BottomNavBar from '../components/BottomNavBar';
 import TopNavBar from '../components/TopNavBar';
-import RandomJobsPosting from '../components/RandomJobsPosting';
+import RandomJobPost from '../components/RandomJobPost';
 
 const Jobsearch = () => {
     const navigation = useNavigation();

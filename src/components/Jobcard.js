@@ -1,23 +1,67 @@
 import React from 'react';
-import { View, Text,ScrollView, StyleSheet,TouchableOpacity } from 'react-native';
+import { View, Text,ScrollView, StyleSheet,TouchableOpacity,Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-const Jobcard = () => {
-    const Job_Card ={
-        post_pic,
-        profile_image,
-        username,
-        likes,
-        bids,
-
-    }
-    const [isliked, setIsliked] = useState(false)
-    const [showbids, setShowbids] = useState(false)
+import {  useRef,useState } from 'react';
+const Jobcard = (
+{
+    profile_image,
+    title,
+    description,
+    username,
+    skills,
+    bids,
+    hourlyrate,
+}
+) => {
+   
+    
+    const [showbids, setShowbids] = useState(false);
     
     return (
-        <View>
-
+        <View style={styles.container}>
+        <View style={styles.c1}>
+            <Image source={{ uri: profile_image }} style={styles.profilepic} />
+            <Text style={styles.username}>{username}</Text>
+            <Text style={styles.username}>{title}</Text>
         </View>
-    )
+    
+            <Text style={styles.textstyling}>hourlyrate $/hr:{hourlyrate}</Text>
+            <Text style={styles.textstyling}>description : {description}</Text>   
+            <Text style={styles.textstyling}>skills : {skills.join(",")}</Text>
+            <View style={styles.s2}>
+            <TouchableOpacity
+            onPress={
+                    () => {
+                        setShowbids(!showbids)
+                    }
+                }>
+                <FontAwesome name="comment" size={24} color="white" style={styles.icons1} 
+                 />
+            </TouchableOpacity>    
+            </View>
+        </View>
+
+  
+        //  {showbids == true &&
+        //     <View style={styles.s3}>
+        //          {
+        //              bids.map((item, index) => {
+        //                 return (
+        //                      <View style={styles.s31} key={item.id}>
+        //                         <Text style={styles.biduser}>{item.username}</Text>
+        //                          <Text style={styles.bidrate}>{item.hourlyrate}</Text>
+        //                          <Text style={styles.bidtext}>{item.comment}</Text>
+                                
+        //                      </View>
+        //                 )
+        //             })
+        //         }
+        //      </View>
+        // }
+ 
+
+    
+)
 }
 
 
@@ -33,12 +77,18 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderWidth: 1,
     },
+    icons1: {
+        color: 'white',
+        fontSize: 25,
+        alignSelf:"flex-end",
+        paddingRight:10,
+    },
     c1: {
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: 'black',
+        backgroundColor: '#1779ba',
     },
     profilepic: {
         width: 30,
@@ -53,6 +103,12 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
     },
+    textstyling:{
+        color: '#1779ba',
+        marginLeft: 10,
+        fontSize: 17,
+        fontWeight: 'bold',
+    },
     image: {
         width: '100%',
         aspectRatio: 1,
@@ -60,7 +116,7 @@ const styles = StyleSheet.create({
     s2: {
         width: '100%',
         flexDirection: 'row',
-        backgroundColor: 'black',
+        backgroundColor: '#1779ba',
         padding: 10,
         alignItems: 'center',
     },

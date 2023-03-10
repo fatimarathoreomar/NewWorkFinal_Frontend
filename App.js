@@ -25,10 +25,22 @@ import Jobsearch from './src/screens/Jobsearch';
 import AddSkills from './src/screens/Profiles/AddSkills'
 import Bioandcompany from './src/screens/Profiles/Bioandcompany'
 import HourlyRateandBio from './src/screens/Profiles/HourlyRateandBio';
+
+//Recruiter nav Bar screens
+import MyJobs from './src/screens/RecruiterNavScreens/MyJobs'
+import MyProjects from './src/screens/RecruiterNavScreens/MyProjects'
+import MyPayments from './src/screens/RecruiterNavScreens/MyPayments'
+//Freelancer nav Bar screens
+import JobSearch from './src/screens/FreelancerNavScreens/JobSearch'
+import My_Projects from './src/screens/FreelancerNavScreens/My_Projects'
+import My_Payments from './src/screens/FreelancerNavScreens/My_Payments'
+import My_jobs from './src/screens/FreelancerNavScreens/My_jobs'
+
+
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 /* ... */
 // Wrap your app with the new GestureHandler
  <GestureHandlerRootView style={{ flex: 1 }}>
@@ -41,7 +53,7 @@ const Stack = createStackNavigator();
      <Stack.Navigator screenOptions={{
        headerShown: false,
        }} >
-       <Stack.Screen name="Login" component={Login}/>
+       {/* <Stack.Screen name="Login" component={Login}/>
        <Stack.Screen name="Signup" component={Signup}/>  
         <Stack.Screen name="FreelancerProfile" component={FreelancerProfile}/>
         <Stack.Screen name="RecruiterProfile" component={RecruiterProfile}/>
@@ -50,7 +62,17 @@ const Stack = createStackNavigator();
         <Stack.Screen name="Jobsearch" component={Jobsearch}/>
         <Stack.Screen name="AddSkills" component={AddSkills}/> 
         <Stack.Screen name="HourlyRateandBio" component={HourlyRateandBio}/>
-         <Stack.Screen name="Bioandcompany" component={Bioandcompany}/> 
+         <Stack.Screen name="Bioandcompany" component={Bioandcompany}/>  */}
+        
+         <Stack.Screen name="MyJobs" component={MyJobs}/> 
+         <Stack.Screen name="MyProjects" component={MyProjects}/> 
+         <Stack.Screen name="MyPayments" component={MyPayments}/> 
+
+         <Stack.Screen name="My_jobs" component={My_jobs}/> 
+         <Stack.Screen name="My_Projects" component={My_Projects}/> 
+         <Stack.Screen name="My_Payments" component={My_Payments}/> 
+         <Stack.Screen name="JobSearch" component={JobSearch}/> 
+
      </Stack.Navigator> 
    
    

@@ -76,16 +76,9 @@ const Login = () => {
                     //dispatchEvent(setUser(fdata));
                     alert('Login Sucessful');
                     console.log(data);
-                    storeData('logindata', JSON.stringify(data));
-                //     console.log("async user data")
-                //     AsyncStorage.getItem('user')
-                //     .then((value) => {
-                //      const data = JSON.parse(value);
-                //    console.log('async user data', data);
-                //      })
-                //   .catch((error) => {
-                //     console.log(error);
-                //   });
+                    //storeData('logindata', JSON.stringify(data));
+                    //storeData('Profiledata', JSON.stringify(data));
+                    AsyncStorage.setItem('Profiledata', JSON.stringify(data))
                    const path="login";
                    if(data.user.type==1){
                        

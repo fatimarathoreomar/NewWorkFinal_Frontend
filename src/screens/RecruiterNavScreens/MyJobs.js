@@ -3,15 +3,19 @@ import React from 'react';
 import {  useRef,useState } from 'react';
 import { View,Image,ScrollView, Text, StyleSheet, TouchableOpacity, Modal,Alert,TextInput} from 'react-native';
 import { NativeBaseProvider,Input, Button, Icon, Box,  useStyledSystemPropsResolver, Center} from 'native-base';
-import PostJob from '../../components/PostJob';
+import PostJob from './PostJob';
 import TopNavBar from '../../components/TopNavBar';
 import RandomJobPost from '../../components/RandomJobPost';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 const MyJobs = () =>{ 
-
-    const [isPostJobVisible, setIsPostJobVisible] = useState(false);
+    const navigation = useNavigation();
+    //const [isPostJobVisible, setIsPostJobVisible] = useState(false);
     const AddJobButtonHandler = () =>{
         console.log("Inside Add job Button handler");
-        setIsPostJobVisible(true);
+        //setIsPostJobVisible(true);
+        navigation.navigate("PostJob");
     }
     const loadMyJobs = ()=>{
         console.log("Inside Add load my jobs");
@@ -23,11 +27,7 @@ const MyJobs = () =>{
         {/* <BottomNavBar navigation={navigation} page={"FeelancerProfile"} ></BottomNavBar> */}
        <TopNavBar/>
         <View style={styles.header3}>
-        <TouchableOpacity
-               style={styles.Buttonupimg}
-               onPress={() => loadMyJobs()}>
-              <Text style={styles.ButtonText}>Refresh</Text>
-        </TouchableOpacity>
+        
   
        
       <TouchableOpacity
@@ -36,9 +36,9 @@ const MyJobs = () =>{
               <Text style={styles.ButtonText}>Add Job </Text>
       </TouchableOpacity>
       </View>
-       {isPostJobVisible && (
+       {/* {isPostJobVisible && (
         <PostJob onClose={() => setIsPostJobVisible(false)} />
-      )}  
+      )}   */}
 
        <RandomJobPost/> 
       </View>
@@ -72,8 +72,9 @@ const MyJobs = () =>{
         fontSize:20,
     },
     header3: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        //flexDirection: 'row',
+        //justifyContent: 'flex-end',
+        alignSelf:"center",
         alignItems: 'center',
         width: '90%',
         marginTop:60,

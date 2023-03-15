@@ -37,7 +37,7 @@ const BottomNavBar = ({navigation}) => (
           </Pressable>
 
           <Pressable 
-          onPress={() => navigation.navigate('MyProjects')}
+          onPress={() => navigation.navigate('MyJobs')}
           android_ripple={{borderless:true, radius:50}}>
          <MaterialIcons 
            name="work"
@@ -52,7 +52,7 @@ const BottomNavBar = ({navigation}) => (
           </Pressable>
 
           <Pressable 
-           onPress={()=> navigation.navigate("MyJobs")}
+           onPress={()=> navigation.navigate("AllJobs")}
           android_ripple={{borderless:true, radius:50}}>
          <FontAwesome
          

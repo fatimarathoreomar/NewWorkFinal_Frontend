@@ -5,9 +5,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 //hourlyrate,description,skills,title,status,recruiter(id),createdAt
 const PostJob= () => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
+    const navigation = useNavigation();
   const [errormsg, setErrormsg] = useState(null);
   const [hourlyrate, sethourlyrate] = useState(0);
   const [description, setdescription] = useState('');
@@ -54,7 +55,8 @@ const PostJob= () => {
             alert(err);
           });
       });
-      setIsModalVisible(false);
+      //setIsModalVisible(false);
+      navigation.navigate("MyJobs");
     }
     
   };
@@ -77,7 +79,7 @@ const PostJob= () => {
 
   return (
    
-    <Modal visible={isModalVisible} animationType="slide">
+   
       <ScrollView>
     <KeyboardAwareScrollView>
     <View style={styles.container}>
@@ -134,7 +136,7 @@ const PostJob= () => {
         </View>
     </KeyboardAwareScrollView>
     </ScrollView>        
-      </Modal>
+    
    
   );
 }

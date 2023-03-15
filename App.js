@@ -35,7 +35,7 @@ import JobSearch from './src/screens/FreelancerNavScreens/JobSearch'
 import My_Projects from './src/screens/FreelancerNavScreens/My_Projects'
 import My_Payments from './src/screens/FreelancerNavScreens/My_Payments'
 import My_jobs from './src/screens/FreelancerNavScreens/My_jobs'
-
+import PostJob from './src/screens/RecruiterNavScreens/PostJob';
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -53,7 +53,7 @@ const Stack = createStackNavigator();
      <Stack.Navigator screenOptions={{
        headerShown: false,
        }} >
-       {/* <Stack.Screen name="Login" component={Login}/>
+       <Stack.Screen name="Login" component={Login}/>
        <Stack.Screen name="Signup" component={Signup}/>  
         <Stack.Screen name="FreelancerProfile" component={FreelancerProfile}/>
         <Stack.Screen name="RecruiterProfile" component={RecruiterProfile}/>
@@ -62,11 +62,12 @@ const Stack = createStackNavigator();
         <Stack.Screen name="Jobsearch" component={Jobsearch}/>
         <Stack.Screen name="AddSkills" component={AddSkills}/> 
         <Stack.Screen name="HourlyRateandBio" component={HourlyRateandBio}/>
-         <Stack.Screen name="Bioandcompany" component={Bioandcompany}/>  */}
+         <Stack.Screen name="Bioandcompany" component={Bioandcompany}/> 
         
          <Stack.Screen name="MyJobs" component={MyJobs}/> 
          <Stack.Screen name="MyProjects" component={MyProjects}/> 
          <Stack.Screen name="MyPayments" component={MyPayments}/> 
+         <Stack.Screen name="PostJob" component={PostJob}/> 
 
          <Stack.Screen name="My_jobs" component={My_jobs}/> 
          <Stack.Screen name="My_Projects" component={My_Projects}/> 

@@ -6,9 +6,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-//hourlyrate,description,skills,title,status,recruiter(id),createdAt
 const PostJob= () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   const [errormsg, setErrormsg] = useState(null);
   const [hourlyrate, sethourlyrate] = useState(0);
   const [description, setdescription] = useState('');
@@ -18,8 +17,11 @@ const PostJob= () => {
  
   const handleButtonClick = () => {
     // Do something with inputText
-    if(title=="" || hourlyrate==0 || description=="" || skills.length<0){
+    if(title=="" || hourlyrate=="" || description=="" || skills.length<=0){
         setErrormsg("Please fill all fields")
+    }
+    else if(hourlyrate>=100 || hourlyrate<0){
+        setErrormsg("Please change hourly rate to a reasonable amount")
     }
     else{  
     AsyncStorage.getItem('Profiledata').then((value) => {
@@ -38,16 +40,17 @@ const PostJob= () => {
         }).then((res) => res.json())
           .then(async (data) => {
             console.log(data);
-            if (data.error) {
-              //setErrormsg(data.error);
-              alert("Connection problem or session expired");
-              console.log("session expired");
-              navigation.navigate("Login");
-            } else if (data.message == "Job Posted Sucessfully") {
-              //console.log("got profile data from backend !!")
-              //storeData('Profiledata', JSON.stringify(data));
-              AsyncStorage.setItem('Profiledata', JSON.stringify(data))
-              console.log(data);
+            if (data.error=="Please fill in all fields") {
+              setErrormsg(data.error);
+            }else if(data.error){
+                alert("Connection problem or session expired");
+            //   console.log("session expired");
+                 navigation.navigate("Login");
+            }
+             else if (data.message == "Job Posted Sucessfully") {
+              AsyncStorage.setItem('RecruiterJobs', JSON.stringify(data));
+              console.log("Job posted sucessfully");
+              console.log("data");
               
             }
           })
@@ -55,7 +58,6 @@ const PostJob= () => {
             alert(err);
           });
       });
-      //setIsModalVisible(false);
       navigation.navigate("MyJobs");
     }
     
@@ -124,7 +126,7 @@ const PostJob= () => {
     ))
           ):null }
 </View>
-          {
+        {
             errormsg ? <Text style={styles.err}>{errormsg}</Text>:null
         }  
         

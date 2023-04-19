@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const BottomNavBarF = () => (
+const BottomNavBarF = ({navigation}) => (
  <View style={styles.container}>  
     <View style={styles.navigationContainer}>
           <View style={styles.NavBar}>
@@ -50,7 +50,7 @@ const BottomNavBarF = () => (
           </Pressable>
 
           <Pressable 
-          onPress={() => navigation.navigate('My_jobs')}
+          onPress={() => navigation.navigate('JobSearch')}
           android_ripple={{borderless:true, radius:50}}>
          <FontAwesome
          
@@ -134,7 +134,7 @@ const BottomNavBarF = () => (
             color:"#ffffff"
           }, 
           Icon:{
-              paddingTop:7,
+              paddingTop:7, 
           }
     })   
 

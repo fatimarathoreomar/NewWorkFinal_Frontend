@@ -62,8 +62,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
                     //dispatchEvent(setUser(fdata));
                     //alert('Sucessful');
                     storeData('Profiledata',JSON.stringify(data));
-                    alert("Your profile is ready!Login Now")
-                   navigation.navigate("Login");
+                    //alert("Your profile is ready!Login Now")
+                   navigation.navigate("freelancerCardDetails");
                    }
                 }
             )

@@ -52,7 +52,7 @@ const BottomNavBar = ({navigation}) => (
           </Pressable>
 
           <Pressable 
-           onPress={()=> navigation.navigate("AllJobs")}
+           onPress={()=> navigation.navigate("Jobsearch")}
           android_ripple={{borderless:true, radius:50}}>
          <FontAwesome
          

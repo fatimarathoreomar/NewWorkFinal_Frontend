@@ -260,7 +260,6 @@ const FreelancerProfile = () => {
        onChangeText={(text) => sethourlyrate(text)}
        keyboardType="numeric"
        value={hourlyRate.toString()}/> 
-   
        <Text style={styles.email}>$/hr</Text>
        </View> 
 
@@ -358,7 +357,7 @@ const FreelancerProfile = () => {
    
     
     </ScrollView>
-    <BottomNavBarF navigation={navigation}  ></BottomNavBarF>
+    <BottomNavBarF navigation={navigation}/>
      {/* <Foundation name="refresh" size={30} color="white" style={styles.refresh}
                 onPress={() => loaddata()}
             />  */}
